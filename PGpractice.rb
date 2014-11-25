@@ -1,5 +1,14 @@
 require 'pg'
 
+def create_tables
+  sql = %q[
+    CREATE TABLE IF NOT EXISTS classmates(
+      first_name VARCHAR,
+      last_name VARCHAR,
+      twitter VARCHAR NOT NULL UNIQUE
+    )
+  ]
+end
 
 def connect
   conn = PG::Connection.new(host: 'localhost', dbname: 'classmates_db')
