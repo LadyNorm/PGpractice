@@ -8,6 +8,7 @@ class Classmate
   def create_tables
     sql = %q[
       CREATE TABLE IF NOT EXISTS classmates(
+        id PRIMARY SERIAL KEY,
         first_name VARCHAR,
         last_name VARCHAR,
         twitter VARCHAR NOT NULL UNIQUE,
@@ -35,8 +36,21 @@ class Classmate
     result.entries
   end
 
-  def delete_a_record(twitter)
+  def delete_a_record(id)
     sql = %q[
-      DELETE FROM classmates WHERE twitter = $1
+      DELETE FROM classmates WHERE id = $1
     ]
+    result = @db.exec_params(sql, [id])
+    result.entries
+  end
+
+  def update_a_record(id, opts={})
+    columns = opts.keys
+    values = opts.values
+
+    sql = %q[
+      UPDATE classmates SET ($1)
+      VALUES ($2)
+    ]
+  end
 end
